@@ -5,13 +5,13 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import { getHeroImageForHome } from '../lib/components/heroImage'
+import { getTextWithDotPointsForHome } from '../lib/components/textWithDotPoints'
 import Head from 'next/head'
-import { CMS_NAME } from '../lib/constants'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-export default function Index({ preview, allPosts, heroImages }) {
-  const heroPost = allPosts[0]
-  const morePosts = allPosts.slice(1)
+export default function Index({ preview, allPosts, heroImages, textWithDotPoints }) {
   const heroImage = heroImages[0]
+  const textWithDotPoint = textWithDotPoints[0]
 
   return (
     <>
@@ -36,38 +36,22 @@ export default function Index({ preview, allPosts, heroImages }) {
 
           <div className="ic-info-grid">
             <div className="ic-info-section ic-info-section__what-is-ic">
-              <h1>What is Instant Consult</h1>
+              <h1>{textWithDotPoint.heading}</h1>
 
               <div className="ic-info-section-columns">
                 <div className="ic-info-section-columns__column">
                   <div className="ic-info-section-copy">
-                    <p>
-                      With Instant Consult you can see an Australian Registered GP
-                      through video call, from anywhere in Australia.
-                    </p>
-                    <p>
-                      Instant Consult is open from open 7 days a week from 6AM
-                      until midnight (AEST) and no bookings are required.
-                    </p>
-
-                    <p className="ic-mobile-only">
-                      Download the app and use Instant Consult when you need a
-                      prescription or to speak to a doctor now!
-                    </p>
-                    <p className="ic-desktop-only">
-                      Use Instant Consult when you need a prescription or to speak
-                      to a doctor now!
-                    </p>
+                    { documentToReactComponents(textWithDotPoint.body.json) }
                   </div>
 
                   <div className="ic-desktop-only">
                     <a
-                      href="https://onelink.to/hdsweq"
+                      href={textWithDotPoint.ctaUrl}
                       className="ic-button-solid ic-button-solid--arrow"
                       target="_blank"
                       rel="noopener"
                     >
-                      Get Started
+                      { textWithDotPoint.ctaText }
                       <svg
                         width="14"
                         height="14"
@@ -103,31 +87,7 @@ export default function Index({ preview, allPosts, heroImages }) {
                   </div>
                 </div>
                 <div className="ic-info-section-columns__column">
-                  <ul className="ic-info-list">
-                    <li>
-                      <span>
-                        See an Australian Registered GP{" "}
-                        <strong>in 15 minutes</strong>
-                      </span>
-                    </li>
-                    <li>
-                      <span>
-                        <strong>Receive your eScript instantly</strong> via SMS or
-                        email
-                      </span>
-                    </li>
-                    <li>
-                      <span>
-                        Available <strong>365 days a year</strong>
-                      </span>
-                    </li>
-                    <li>
-                      <span>
-                        <strong>No extra charge</strong> for out of hours
-                        appointments
-                      </span>
-                    </li>
-                  </ul>
+                  { documentToReactComponents(textWithDotPoint.dotPoints.json) }
                 </div>
               </div>
             </div>
@@ -375,8 +335,8 @@ export default function Index({ preview, allPosts, heroImages }) {
 export async function getStaticProps({ preview = false }) {
   const allPosts = (await getAllPostsForHome(preview)) ?? [];
   const heroImages = (await getHeroImageForHome(preview)) ?? []
-
+  const textWithDotPoints = (await getTextWithDotPointsForHome(preview)) ?? []
   return {
-    props: { preview, allPosts, heroImages },
+    props: { preview, allPosts, heroImages, textWithDotPoints },
   }
 }
