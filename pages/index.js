@@ -6,13 +6,14 @@ import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import { getHeroImageForHome } from '../lib/components/heroImage'
 import { getTextWithDotPointsForHome } from '../lib/components/textWithDotPoints'
+import { getTextContentsForHome } from '../lib/components/textContents'
 import Head from 'next/head'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-export default function Index({ preview, allPosts, heroImages, textWithDotPoints }) {
+export default function Index({ preview, heroImages, textWithDotPoints, textContents }) {
   const heroImage = heroImages[0]
   const textWithDotPoint = textWithDotPoints[0]
-
+ 
   return (
     <>
       <Layout preview={preview}>
@@ -92,49 +93,13 @@ export default function Index({ preview, allPosts, heroImages, textWithDotPoints
               </div>
             </div>
             <div className="ic-info-section ic-info-section__how-it-works">
-              <h2>How it Works</h2>
-
-              <ol className="ic-info-list">
-                <li>
-                  <span className="ic-mobile-only">
-                    Download the Instant Consult app
-                  </span>
-                  <span className="ic-desktop-only">
-                    Sign up or login on the Instant Consult website or app
-                  </span>
-                </li>
-                <li>Request a consult</li>
-                <li>
-                  Consult with a doctor through video call and receive your
-                  eScript ^
-                </li>
-                <li>
-                  Order your medication online or visit your nearest Chemist
-                  Warehouse pharmacy *
-                </li>
-              </ol>
-
-              <div className="ic-info-footnotes">
-                * You have the choice to fill your script at any pharmacy <br />^
-                If deemed clinically appropriate
-              </div>
+              <h2>{ textContents[0].heading }</h2>
+              { documentToReactComponents(textContents[0].body.json) }
             </div>
             <div className="ic-info-section ic-info-section__our-doctors">
-              <h2>Our Doctors</h2>
-
+              <h2>{ textContents[1].heading }</h2>
               <div className="ic-info-section-copy">
-                <p>
-                  All our online Doctors are fully qualified and are registered
-                  with the Australian Health Practitioner Regulation Agency
-                  (AHPRA), as required by the Medical Board of Australia.
-                </p>
-                <p>
-                  All Doctors on Instant Consult are General Practitioners -
-                  fellows of the RACGP and ACRRM;
-                  <strong>
-                    the highest qualification obtained as a GP in Australia.
-                  </strong>
-                </p>
+                { documentToReactComponents(textContents[1].body.json) }
               </div>
             </div>
             <div className="ic-info-section ic-info-section__faq">
@@ -333,10 +298,11 @@ export default function Index({ preview, allPosts, heroImages, textWithDotPoints
 }
 
 export async function getStaticProps({ preview = false }) {
-  const allPosts = (await getAllPostsForHome(preview)) ?? [];
   const heroImages = (await getHeroImageForHome(preview)) ?? []
   const textWithDotPoints = (await getTextWithDotPointsForHome(preview)) ?? []
+  const textContents = (await getTextContentsForHome(preview)) ?? []
+  debugger
   return {
-    props: { preview, allPosts, heroImages, textWithDotPoints },
+    props: { preview, heroImages, textWithDotPoints, textContents },
   }
 }

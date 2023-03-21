@@ -294,12 +294,19 @@ ol.ic-info-list {
   gap: 32px;
 }
 
-ol.ic-info-list li {
+.ic-info-section__how-it-works ol {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.ic-info-section__how-it-works ol li {
+  display: flex;
   gap: 16px;
   counter-increment: ol-list-counter 1;
 }
 
-ol.ic-info-list li::before {
+.ic-info-section__how-it-works ol li::before {
   content: counter(ol-list-counter);
   background: url('https://static.chemistwarehouse.com.au/ams/media/images/instant-consult/marker-ol.svg')
   no-repeat 0 0;
