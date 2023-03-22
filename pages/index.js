@@ -2,6 +2,8 @@ import { getAllPostsForHome } from "../lib/api";
 import { getHeroImageForHome } from "../lib/components/heroImage";
 import { getTextWithDotPointsForHome } from "../lib/components/textWithDotPoints";
 import { getTextContentsForHome } from "../lib/components/textContents";
+import { getFAQPreviewContentsForHome } from "../lib/components/faqPreviewContents";
+import { getLegalSubstantiationContentsForHome } from "../lib/components/legalSubstantiation";
 import Head from "next/head";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
@@ -10,10 +12,14 @@ export default function Index({
   heroImages,
   textWithDotPoints,
   textContents,
+  faqPreviewContents,
+  legalSubstantiationContents,
 }) {
   const heroImage = heroImages[0];
   const textWithDotPoint = textWithDotPoints[0];
-  console.log(textContents);
+  const faqPreviewContent = faqPreviewContents[0];
+  const legalSubstantiationContent = legalSubstantiationContents[0];
+  console.log(legalSubstantiationContent);
   return (
     <>
       <Head>
@@ -102,150 +108,40 @@ export default function Index({
             </div>
           </div>
           <div className="ic-info-section ic-info-section__faq">
-            <h2>Frequently Asked Questions</h2>
+            <h2>{faqPreviewContent.heading}</h2>
 
             <div className="ic-info-section-columns">
               <div className="ic-info-section-columns__column">
                 <div className="ic-info-section-copy">
-                  <p>
-                    Here you will find some frequently asked questions about
-                    Instant Consult.
-                  </p>
+                  {documentToReactComponents(faqPreviewContent.body.json)}
                 </div>
-
                 <div className="ic-faq">
-                  <details>
-                    <summary>
-                      What is Instant Consult
-                      <svg
-                        width="12"
-                        height="8"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M1.41.551 6 5.131l4.59-4.58L12 1.961l-6 6-6-6L1.41.551Z"></path>
-                      </svg>
-                    </summary>
-                    <div className="ic-faq__answer">
-                      <p>
-                        Instant Consult provides you with the ability to have a
-                        health consultation with an Australian registered, fully
-                        qualified and experienced Doctor via video call,
-                        anywhere in Australia.
-                      </p>
-                      <p>
-                        They provide a platform for affordable consultations
-                        from the comfort of your home or wherever you are. No
-                        need to book an appointment - simply “Request a Consult”
-                        and the first available Doctor will connect with you
-                        instantly, usually in less than 15 minutes. If you would
-                        prefer, you can also book an appointment time for the
-                        Doctor to call you back at no extra charge.
-                      </p>
-                      <p>
-                        Doctors are available to answer your questions 7 days a
-                        week 6am-midnight (AEST)
-                      </p>
-                      <p>
-                        Consultation costs are extremely competitive and do not
-                        increase outside normal office hours or on weekends or
-                        public holidays.
-                      </p>
-                    </div>
-                  </details>
-                  <details>
-                    <summary>
-                      What can I use Instant Consult for?
-                      <svg
-                        width="12"
-                        height="8"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M1.41.551 6 5.131l4.59-4.58L12 1.961l-6 6-6-6L1.41.551Z"></path>
-                      </svg>
-                    </summary>
-                    <div className="ic-faq__answer">
-                      <p>
-                        Instant Consult doctors can provide prescriptions
-                        (including Repeats), specialist referrals, medical
-                        certificates and pathology and radiology requests. You
-                        can also speak to their doctors for just about any
-                        general medical issue, including cold and flu, sore
-                        throat, sexual health, diarrhoea, vomiting and more.
-                        Suitable medical consultations can be effectively
-                        managed online via video call. Using Instant Consult
-                        takes pressure off medical practices as well as hospital
-                        emergency departments, letting their local doctors and
-                        nurses focus on physical examination and genuine
-                        emergency care.
-                      </p>
-                    </div>
-                  </details>
-                  <details>
-                    <summary>
-                      Should I use Instant Consult in cases of emergency?
-                      <svg
-                        width="12"
-                        height="8"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M1.41.551 6 5.131l4.59-4.58L12 1.961l-6 6-6-6L1.41.551Z"></path>
-                      </svg>
-                    </summary>
-                    <div className="ic-faq__answer">
-                      <p>
-                        No, if you need emergency medical attention in Australia
-                        please dial 000. Examples of medical emergencies
-                        include: chest pain, head or spinal injuries, severe
-                        bleeding, loss of movement, breathing difficulties and
-                        reduced level of consciousness.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-
-                <div className="ic-info-section-copy ic-info-section__faq-note">
-                  <p>
-                    If the information above doesn't answer your query or
-                    concern, please feel free to view all Frequently Asked
-                    Questions on the Instant Consult website or contact the
-                    Instant Consult support team on
-                    <a href="mailto:support@instantconsult.com.au">
-                      support@instantconsult.com.au
-                    </a>
-                    .
-                  </p>
-                </div>
-
-                <div className="ic-info-faq-footer">
-                  <a
-                    href="https://www.instantconsult.com.au/faq/"
-                    className="ic-button-outline"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    <span>
-                      <span className="ic-desktop-only--inline">View</span> all
-                      Frequently Asked Questions
-                    </span>
-                    <svg
-                      width="14"
-                      height="14"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M7 .333 5.827 1.508l4.65 4.659H.334v1.666h10.142l-4.65 4.659L7 13.667 13.667 7 7.001.333Z"></path>
-                    </svg>
-                  </a>
+                  {faqPreviewContent.faQsCollection.items.map((faq, index) => (
+                    <details key={`faq_${index}`}>
+                      <summary>
+                        {faq.faqTitle}
+                        <svg
+                          width="12"
+                          height="8"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M1.41.551 6 5.131l4.59-4.58L12 1.961l-6 6-6-6L1.41.551Z"></path>
+                        </svg>
+                      </summary>
+                      <div className="ic-faq__answer">
+                        {documentToReactComponents(faq.faqBody.json)}
+                      </div>
+                    </details>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
           <div className="ic-info-section ic-info-section__speak-to-doctor">
             <h2>{textContents[2].heading}</h2>
-
             <div className="ic-info-section-copy">
               {documentToReactComponents(textContents[2].body.json)}
             </div>
-
             {textContents[2].ctaVisible && (
               <div className="ic-desktop-only">
                 <a
@@ -265,7 +161,6 @@ export default function Index({
                 </a>
               </div>
             )}
-
             <div className="ic-info-app-stores ic-mobile-only">
               <a
                 href="https://onelink.to/hdsweq"
@@ -290,6 +185,13 @@ export default function Index({
               </a>
             </div>
           </div>
+
+          <div className="ic-info-section">
+            <div>{legalSubstantiationContent.heading}</div>
+            <div>
+              {documentToReactComponents(legalSubstantiationContent.body.json)}
+            </div>
+          </div>
         </div>
       </section>
     </>
@@ -300,8 +202,19 @@ export async function getStaticProps({ preview = false }) {
   const heroImages = (await getHeroImageForHome(preview)) ?? [];
   const textWithDotPoints = (await getTextWithDotPointsForHome(preview)) ?? [];
   const textContents = (await getTextContentsForHome(preview)) ?? [];
-  debugger;
+  const faqPreviewContents =
+    (await getFAQPreviewContentsForHome(preview)) ?? [];
+  const legalSubstantiationContents =
+    (await getLegalSubstantiationContentsForHome(preview)) ?? [];
+
   return {
-    props: { preview, heroImages, textWithDotPoints, textContents },
+    props: {
+      preview,
+      heroImages,
+      textWithDotPoints,
+      textContents,
+      faqPreviewContents,
+      legalSubstantiationContents,
+    },
   };
 }
