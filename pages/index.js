@@ -19,7 +19,7 @@ export default function Index({
   const textWithDotPoint = textWithDotPoints[0];
   const faqPreviewContent = faqPreviewContents[0];
   const legalSubstantiationContent = legalSubstantiationContents[0];
-  console.log(legalSubstantiationContent);
+  
   return (
     <>
       <Head>
@@ -198,7 +198,7 @@ export default function Index({
   );
 }
 
-export async function getStaticProps({ preview = false }) {
+export async function getServerSideProps({ preview = false }) {
   const heroImages = (await getHeroImageForHome(preview)) ?? [];
   const textWithDotPoints = (await getTextWithDotPointsForHome(preview)) ?? [];
   const textContents = (await getTextContentsForHome(preview)) ?? [];
